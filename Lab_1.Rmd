@@ -1,0 +1,157 @@
+Miguel Antonio Orellana Ruíz
+Cuenta EEP: 999009043
+Registro académico: 201801279
+CUI: 3054116160207
+
+
+-------------------------- LABORATORIO 1 --------------------------
+
+1. Vectores y Matrices 
+
+  1.1 Crear de un vector por cada estudiante que almacene 5 registros. 
+  
+```{r}
+student_1 <- c(50.4, 62.3, 92.1, 77.6, TRUE)
+student_2 <- c(41.7, 87.9, 75.3, 72.4, FALSE)
+student_3 <- c(30.3, 67.8, 69.3, 71.2, FALSE)
+student_4 <- c(65.4, 85.1, 92.3, 96.8, TRUE)
+student_5 <- c(70.4, 88.2, 95.2, 90.7, TRUE)
+```
+ 
+  1.2 Crear el vector students_vector, sus elementos serán cada uno de los vectores creados. 
+  
+```{r}
+students_vector <- c(student_1, student_2, student_3, student_4, student_5)
+```
+  
+  1.3 Construya una matriz de nombre student_matrix, que reciba los parámetros de studens_vector.
+  
+```{r}
+students_matrix <- matrix(students_vector, nrow = 5, byrow = TRUE)
+students_matrix #Se imprime la matriz. 
+```
+  
+2. Nombrado de una matriz 
+
+  2.1 Crear los vectores name_stidemts y name_courses_legal_age:
+  
+```{r}
+name_students <- c("Lily Brown", "Davis Moore", "Susan Taylor", "Mike Jones", "Tom Hill")
+name_courses_legal_age <- c("TIC", "Accounting", "Psychology", "Ethics", "Legal_age")
+```
+  
+  2.2 Utilizar los vectores para el nombrado de filas y columnas de la matriz students_vectos.
+  
+```{r}
+#Asigando los nombres de los estudiantes a las filas. 
+rownames(students_matrix) <- name_students
+
+#Asigando a las columnas los cursos y si es mayor de edad. 
+colnames(students_matrix) <- name_courses_legal_age
+
+#Visualizando la matriz con los cambios. 
+students_matrix
+```
+  
+3. rowSums, cbind 
+
+  3.1 Crear un vector total_grade_student que contenga la sumatoria de todas las notas por cada estudiante.
+  
+```{r}
+total_grade_student <- rowSums(students_matrix[1:5, -5]) #suma las filas, quitando la columna que indica si es mayor de edad.
+total_grade_student
+```
+  
+  3.2 Pegue el vector total_grade_student con la matriz students_matrix por medio de la función cbind
+      y asigne el resultado a una nueva matriz de nombre result_students.
+      
+```{r}
+result_students <- cbind(students_matrix, total_grade_student)
+result_students
+```
+    
+4. Seleccionando elementos de una matriz. 
+
+  4.1 De la matriz result_students seleccione la fila 1,3 y t y las columnas 2 y 4. 
+      Almacene el resultado en una variable de nombre selected_elements e imprima el resultado.
+      
+```{r}
+selected_elements <- result_students[c(1, 3, 5),c(2, 4)]
+selected_elements
+
+```
+
+5. Data frames 
+  
+  5.1 Construya un data frame de nombre students_grades_df utilizando la matriz result_students como parámetro.
+  
+```{r}
+students_grade_df <- data.frame(result_students)
+students_grade_df #Visualización del dataframe
+```
+  5.2 Utilice la función subset en students_grades_df para filtrar por la siguiente condición:
+      Que la columna Accounting sea mayor a 80 y que legal_age sea verdadero. 
+      
+```{r}
+subset(students_grade_df, subset = Accounting >80 & Legal_age == TRUE)
+```
+
+6. Funciones, condicionales y Bucles
+
+  6.1 Construya una función de nombre students_projection que recorra la matriz result_students.
+  
+```{r}
+students_projection <-  function(matriz){
+  for (i in 1:nrow(matriz)){
+    for (j in 1:4){
+      print(matriz[i, j])
+    }
+  }
+}
+```
+  
+  6.2 Aplicar las siguientes condiciones. 
+    6.2.1 Si la nota es menor o igual a 45 imprima "Student at risk"
+    6.2.2 Si la nota es mayor a 45 y menor a 61 imprima "Student may be approved"
+    6.2.3 si la nota es mayor o igual a 61 imprima "Student approved". 
+    
+```{r}
+students_projection <-  function(matriz){
+  for (i in 1:nrow(matriz)){
+    for (j in 1:4){
+      dato = matriz[i, j]
+      print(dato)
+      if (dato <= 45){
+        print("Student at risk")
+      } else if (dato > 45 & dato <61) {
+        print("Student may be approved")
+    } else {
+      print ("Student approved")
+    }
+  }
+  }
+}
+```
+  
+   6.3 Llamar a la función
+```{r}
+students_projection (result_students)
+```
+    
+7. Data frames y lapply
+
+```{r}
+# 7.1
+index_education <- function(grade){
+  0.5*(1+(grade*0.01))
+}
+
+#7.2
+all_students_grade <- students_grade_df[,c(1:4)]
+
+#7.3
+inciso_7 <- lapply(all_students_grade, index_education)
+inciso_7
+```
+8. Math utilities
+      
